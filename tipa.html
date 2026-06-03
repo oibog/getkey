@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VN MOD</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0f0f12;
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+        }
+
+        .wrapper {
+            position: relative;
+            padding: 3px; 
+            border-radius: 24px;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400%;
+            animation: border-rotate 10s linear infinite;
+        }
+
+        @keyframes border-rotate {
+            0% { background-position: 0 0; }
+            100% { background-position: 400% 0; }
+        }
+
+        .card {
+            background: #141418;
+            padding: 25px;
+            border-radius: 21px;
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .image-container {
+            width: 100%;
+            padding: 6px; 
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 18px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+        }
+
+        h2 { 
+            color: #ffffff; 
+            margin: 0 0 15px 0; 
+            font-size: 26px; 
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        
+        .info-section {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 25px;
+            color: #d1d5db;
+            font-size: 13px;
+        }
+
+        .info-section strong { color: #3b82f6; display: block; margin-bottom: 8px; }
+        .info-section ul { list-style: none; padding: 0; margin: 0 0 15px 0; }
+        .info-section li { margin-bottom: 5px; font-weight: 600; }
+        
+        .note-list { color: #f59e0b; }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        /* Màu sắc các loại nút */
+        .btn-get { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+        .btn-download { background: #22c55e; } /* Xanh lá cho nút tải */
+        .btn-tele { background: #1e1e24; border: 1px solid #333; }
+        
+        .btn:hover { 
+            transform: scale(1.02); 
+            filter: brightness(1.2);
+        }
+        
+        .btn img { width: 22px; height: 22px; margin: 0 10px 0 0; }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="card">
+            <div class="image-container">
+                <img src="https://sf-static.upanhlaylink.com/img/image_202606033aa716e81c36900e879549198aae7a5e.jpg" alt="Logo">
+            </div>
+            
+            <h2>TIPA VN MOD</h2>
+            
+            <div class="info-section">
+                <strong>[+] Chức Năng:</strong>
+                <ul>
+                    <li>• Esp</li>
+                    <li>• Aimbot</li>
+                    <li>• Antiban</li>
+                </ul>
+                <strong>[+] Lưu Ý:</strong>
+                <ul class="note-list">
+                    <li>• Hãy chơi kín để tránh ban id</li>
+                    <li>• Đừng vì sĩ gái mà làm ban acc</li>
+                </ul>
+            </div>
+            
+            <div class="button-group">
+                <!-- Link Get Key -->
+                <a href="https://trafficvn.com/links/d7ada3" class="btn btn-get" target="_blank">GET KEY</a>
+                
+                <!-- Link Tải -->
+                <a href="https://t.me/vnmodios/21" class="btn btn-download" target="_blank">TẢI XUỐNG</a>
+                
+                <!-- Link Telegram -->
+                <a href="https://t.me/vnmodios" class="btn btn-tele" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Tele">
+                    Box Telegram
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
