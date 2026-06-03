@@ -43,11 +43,10 @@
             text-align: center;
         }
 
-        /* Khung chứa ảnh khác biệt */
         .image-container {
             width: 100%;
-            padding: 6px; /* Tạo viền mỏng xung quanh ảnh */
-            background: rgba(255, 255, 255, 0.05); /* Nền mờ cho khung ảnh */
+            padding: 6px; 
+            background: rgba(255, 255, 255, 0.05); 
             border-radius: 18px;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -102,7 +101,9 @@
             transition: 0.3s;
         }
 
+        /* Màu sắc các loại nút */
         .btn-get { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+        .btn-download { background: #22c55e; } /* Xanh lá cho nút tải */
         .btn-tele { background: #1e1e24; border: 1px solid #333; }
         
         .btn:hover { 
@@ -117,7 +118,6 @@
 
     <div class="wrapper">
         <div class="card">
-            <!-- Khung ảnh có viền khác biệt -->
             <div class="image-container">
                 <img src="https://sf-static.upanhlaylink.com/img/image_202606033aa716e81c36900e879549198aae7a5e.jpg" alt="Logo">
             </div>
@@ -139,7 +139,13 @@
             </div>
             
             <div class="button-group">
+                <!-- Link Get Key -->
                 <a href="https://trafficvn.com/links/d7ada3" class="btn btn-get" target="_blank">GET KEY</a>
+                
+                <!-- Link Tải -->
+                <a href="https://t.me/vnmodios/21" class="btn btn-download" target="_blank">TẢI XUỐNG</a>
+                
+                <!-- Link Telegram -->
                 <a href="https://t.me/vnmodios" class="btn btn-tele" target="_blank">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Tele">
                     Box Telegram
