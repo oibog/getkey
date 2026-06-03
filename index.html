@@ -5,66 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VN MOD</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
-        body { 
-            margin: 0; 
-            background: #0f0f12; 
-            font-family: 'Inter', sans-serif; 
-            color: white; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-        }
+        body { margin: 0; background: #0f0f12; font-family: 'Inter', sans-serif; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
 
-        .container { 
-            background: #141418; 
-            padding: 40px; 
-            border-radius: 30px; 
-            text-align: center; 
-            border: 1px solid #333; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 320px;
-        }
+        .container { width: 340px; }
 
-        h2 { margin-bottom: 30px; font-size: 24px; text-transform: uppercase; }
+        /* Khung Admin */
+        .admin-header { background: #1a1a21; padding: 15px; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border: 1px solid #333; }
+        .user-left { display: flex; align-items: center; gap: 12px; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; }
+        
+        /* Tên và Role */
+        .user-details { display: flex; flex-direction: column; }
+        .name { font-weight: 800; font-size: 15px; }
+        .role { color: #ff4d4d; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 2px; }
+        
+        .time-right { font-size: 11px; color: #888; text-align: right; }
 
-        .btn-select { 
-            display: block; 
-            width: 100%; 
-            padding: 18px; 
-            margin: 15px 0; 
-            background: #1e1e24; 
-            border: 1px solid #333; 
-            color: white; 
-            border-radius: 15px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-size: 16px; 
-            transition: 0.3s; 
-        }
+        /* Các khối khác */
+        .notice-box { background: #141418; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px; text-align: left; }
+        .section-title { color: #f59e0b; font-size: 12px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .notice-text { font-size: 14px; margin: 5px 0; color: #ddd; }
 
-        .btn-select:hover { 
-            background: #3b82f6; 
-            transform: scale(1.03); 
-        }
+        .select-box { background: #141418; padding: 20px; border-radius: 20px; border: 1px solid #333; text-align: center; }
+        .btn-select { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #1e1e24; border: 1px solid #444; color: white; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-select:hover { background: #3b82f6; border-color: #3b82f6; transform: scale(1.02); }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>VUI LÒNG CHỌN MỤC</h2>
-        
-        <!-- Nút TIPA VN MOD - Chuyển sang link bạn yêu cầu -->
-        <button class="btn-select" onclick="window.location.href='https://oibog.github.io/getkey/tipa.html'">
-            TIPA VN MOD
-        </button>
-        
-        <!-- Nút PROXY FF - Chuyển sang link của bạn -->
-        <button class="btn-select" onclick="window.location.href='https://oibog.github.io/getkey/proxy.html'">
-            PROXY FF
-        </button>
+        <!-- Khung Admin -->
+        <div class="admin-header">
+            <div class="user-left">
+                <img src="https://sf-static.upanhlaylink.com/img/image_20260514f529ade08e35385420e427b95f7c5367.jpg" class="avatar">
+                <div class="user-details">
+                    <div class="name">obi74z</div>
+                    <div class="role">ADMIN</div>
+                </div>
+            </div>
+            <div class="time-right">18:07<br>3/6/2026</div>
+        </div>
+
+        <!-- Khung thông báo -->
+        <div class="notice-box">
+            <div class="section-title">Thông báo</div>
+            <div class="notice-text">[+] Proxy: Hiện đang bảo trì</div>
+            <div class="notice-text">[+] Tipa: Vẫn đang hoạt động ngon</div>
+        </div>
+
+
+
+<!-- Khung chọn mục -->
+        <div class="select-box">
+            <div class="section-title">Chọn Mục</div>
+            <button class="btn-select" onclick="window.location.href='https://oibog.github.io/getkey/tipa.html'">TIPA VN MOD</button>
+            <button class="btn-select" onclick="window.location.href='https://oibog.github.io/getkey/proxy.html'">PROXY FF</button>
+        </div>
     </div>
 
 </body>
