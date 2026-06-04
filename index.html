@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VN MOD</title>
+    <title>VN MOD SYSTEM</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
-        /* Video nền luôn nằm dưới cùng, chiếm toàn màn hình */
+        /* Video nền */
         #bg-video {
             position: fixed;
             top: 0; left: 0;
@@ -16,7 +16,17 @@
             z-index: -999;
         }
 
-        body { margin: 0; font-family: 'Inter', sans-serif; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            color: white; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 20px; 
+            overflow-x: hidden;
+        }
         
         /* Container mờ sâu */
         .container { 
@@ -30,14 +40,28 @@
         }
 
         /* Popup thông báo */
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 999; }
-        .popup { background: rgba(26, 26, 33, 0.7); padding: 30px; border-radius: 25px; text-align: center; width: 280px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); }
-        .btn-ok { background: #3b82f6; border: none; padding: 12px 40px; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        #overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.85); display: flex; 
+            justify-content: center; align-items: center; z-index: 999; 
+        }
+        .popup { 
+            background: rgba(26, 26, 33, 0.7); padding: 30px; 
+            border-radius: 25px; text-align: center; width: 280px; 
+            border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); 
+        }
+        .btn-ok { 
+            background: #3b82f6; border: none; padding: 12px 40px; 
+            border-radius: 12px; color: white; font-weight: bold; 
+            cursor: pointer; margin-top: 15px; 
+        }
 
-        /* Các khối UI đồng bộ mờ */
+        /* Các khối UI */
         .admin-header, .box { 
             background: rgba(255, 255, 255, 0.05); 
-            padding: 20px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 15px; backdrop-filter: blur(10px);
+            padding: 20px; border-radius: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            margin-bottom: 15px; backdrop-filter: blur(10px);
         }
         
         .admin-header { display: flex; align-items: center; justify-content: space-between; padding: 15px; }
@@ -48,7 +72,12 @@
         .time-right { font-size: 11px; color: #ccc; text-align: right; flex-shrink: 0; margin-left: 10px; }
         
         .section-title { color: #f59e0b; font-size: 12px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; text-align: left; }
-        .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; margin: 8px 0; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; box-sizing: border-box; }
+        .btn { 
+            display: flex; align-items: center; justify-content: center; gap: 10px; 
+            width: 100%; padding: 14px; margin: 8px 0; background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 12px; 
+            cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; box-sizing: border-box; 
+        }
         .btn:hover { background: rgba(59, 130, 246, 0.4); border-color: #3b82f6; transform: scale(1.02); }
         .tele-icon { width: 22px; height: 22px; margin-right: 10px; flex-shrink: 0; }
     </style>
@@ -60,7 +89,7 @@
     <div id="overlay">
         <div class="popup">
             <h3>WELCOME</h3>
-            <p>Có tiền thì có gái xinh!</p>
+            <p>Chào mừng đến với hệ thống mod!</p>
             <button class="btn-ok" onclick="initPage()">OK</button>
         </div>
     </div>
@@ -107,8 +136,15 @@
                 "https://files.catbox.moe/exjpxf.mp4"
             ];
             const video = document.getElementById('bg-video');
+            
+            // Chọn video ngẫu nhiên
             video.src = sources[Math.floor(Math.random() * sources.length)];
-            video.play();
+            
+            // Ép load và phát
+            video.load();
+            video.play().catch(err => console.log("Trình duyệt chặn autoplay âm thanh"));
+            
+            // Ẩn overlay
             document.getElementById('overlay').style.display = 'none';
         }
     </script>
