@@ -3,65 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VN MOD SYSTEM</title>
+    <title>VN MOD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
-        /* Video nền */
-        #bg-video {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: -999;
+        /* Ảnh nền cố định */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: url('https://sf-static.upanhlaylink.com/img/image_202605040a9d523d43877929e6d0aca9991685b1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        body { 
-            margin: 0; 
-            font-family: 'Inter', sans-serif; 
-            color: white; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            padding: 20px; 
-            overflow-x: hidden;
-        }
-        
-        /* Container mờ sâu */
         .container { 
             width: 340px; 
-            background: rgba(0, 0, 0, 0.2); 
+            background: rgba(0, 0, 0, 0.3); 
             padding: 20px; 
             border-radius: 25px; 
             border: 1px solid rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
         }
 
-        /* Popup thông báo */
-        #overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.85); display: flex; 
-            justify-content: center; align-items: center; z-index: 999; 
-        }
-        .popup { 
-            background: rgba(26, 26, 33, 0.7); padding: 30px; 
-            border-radius: 25px; text-align: center; width: 280px; 
-            border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(10px); 
-        }
-        .btn-ok { 
-            background: #3b82f6; border: none; padding: 12px 40px; 
-            border-radius: 12px; color: white; font-weight: bold; 
-            cursor: pointer; margin-top: 15px; 
-        }
-
-        /* Các khối UI */
+        /* Các khối UI đồng bộ mờ */
         .admin-header, .box { 
             background: rgba(255, 255, 255, 0.05); 
-            padding: 20px; border-radius: 20px; 
+            padding: 20px; 
+            border-radius: 20px; 
             border: 1px solid rgba(255, 255, 255, 0.1); 
-            margin-bottom: 15px; backdrop-filter: blur(10px);
+            margin-bottom: 15px; 
+            backdrop-filter: blur(10px);
         }
         
         .admin-header { display: flex; align-items: center; justify-content: space-between; padding: 15px; }
@@ -84,16 +63,6 @@
 </head>
 <body>
 
-    <video id="bg-video" muted loop playsinline></video>
-
-    <div id="overlay">
-        <div class="popup">
-            <h3>WELCOME</h3>
-            <p>Chào mừng đến với hệ thống mod!</p>
-            <button class="btn-ok" onclick="initPage()">OK</button>
-        </div>
-    </div>
-
     <div class="container">
         <div class="admin-header">
             <div class="user-left">
@@ -103,13 +72,13 @@
                     <div class="role">ADMIN</div>
                 </div>
             </div>
-            <div class="time-right">18:07<br>3/6/2026</div>
+            <div class="time-right">13:37<br>4/6/2026</div>
         </div>
 
         <div class="box">
             <div class="section-title">Thông báo</div>
             <div style="font-size: 14px; color: #eee; margin: 5px 0;">• Proxy: Đang bảo trì</div>
-            <div style="font-size: 14px; color: #eee; margin: 5px 0;">• Tipa: Vẫn đang hoạt động ngon</div>
+            <div style="font-size: 14px; color: #eee; margin: 5px 0;">• Tipa: Đã up thêm key 4/6/2026</div>
         </div>
 
         <div class="box">
@@ -129,24 +98,5 @@
         </div>
     </div>
 
-    <script>
-        function initPage() {
-            const sources = [
-                "https://files.catbox.moe/cxkpd0.mp4",
-                "https://files.catbox.moe/exjpxf.mp4"
-            ];
-            const video = document.getElementById('bg-video');
-            
-            // Chọn video ngẫu nhiên
-            video.src = sources[Math.floor(Math.random() * sources.length)];
-            
-            // Ép load và phát
-            video.load();
-            video.play().catch(err => console.log("Trình duyệt chặn autoplay âm thanh"));
-            
-            // Ẩn overlay
-            document.getElementById('overlay').style.display = 'none';
-        }
-    </script>
 </body>
 </html>
