@@ -7,7 +7,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
-        /* Ảnh nền cố định */
+        /* Nền ô kẻ lưới trắng */
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
@@ -17,15 +17,16 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background-image: url('https://sf-static.upanhlaylink.com/img/image_202605040a9d523d43877929e6d0aca9991685b1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-color: #0f0f12;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px; /* Kích thước ô lưới */
         }
 
         .container { 
             width: 340px; 
-            background: rgba(0, 0, 0, 0.3); 
+            background: rgba(0, 0, 0, 0.4); 
             padding: 20px; 
             border-radius: 25px; 
             border: 1px solid rgba(255, 255, 255, 0.1); 
@@ -33,7 +34,7 @@
             -webkit-backdrop-filter: blur(15px);
         }
 
-        /* Các khối UI đồng bộ mờ */
+        /* Các khối UI */
         .admin-header, .box { 
             background: rgba(255, 255, 255, 0.05); 
             padding: 20px; 
