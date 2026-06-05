@@ -7,7 +7,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
 
-        /* Nền ô kẻ lưới trắng */
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
@@ -21,20 +20,11 @@
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px; /* Kích thước ô lưới */
+            background-size: 40px 40px;
         }
 
-        .container { 
-            width: 340px; 
-            background: rgba(0, 0, 0, 0.4); 
-            padding: 20px; 
-            border-radius: 25px; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
-        }
+        .container { width: 340px; }
 
-        /* Các khối UI */
         .admin-header, .box { 
             background: rgba(255, 255, 255, 0.05); 
             padding: 20px; 
@@ -45,21 +35,45 @@
         }
         
         .admin-header { display: flex; align-items: center; justify-content: space-between; padding: 15px; }
-        .user-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; flex-shrink: 0; }
-        .name { font-weight: 800; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-left { display: flex; align-items: center; gap: 12px; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; }
+        .name { font-weight: 800; font-size: 15px; }
         .role { color: #ff4d4d; font-size: 11px; font-weight: 700; text-transform: uppercase; }
-        .time-right { font-size: 11px; color: #ccc; text-align: right; flex-shrink: 0; margin-left: 10px; }
         
-        .section-title { color: #f59e0b; font-size: 12px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; text-align: left; }
+        .section-title { color: #f59e0b; font-size: 12px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; }
+        
+        /* Accordion Style */
+        .accordion-header { 
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            color: #f59e0b; font-size: 12px; font-weight: 800; text-transform: uppercase;
+        }
+        .content { display: none; margin-top: 15px; }
+        .content.active { display: block; }
+        
         .btn { 
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
+            display: flex; align-items: center; justify-content: start; 
             width: 100%; padding: 14px; margin: 8px 0; background: rgba(255, 255, 255, 0.05); 
             border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 12px; 
-            cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; box-sizing: border-box; 
+            cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; box-sizing: border-box;
         }
-        .btn:hover { background: rgba(59, 130, 246, 0.4); border-color: #3b82f6; transform: scale(1.02); }
-        .tele-icon { width: 22px; height: 22px; margin-right: 10px; flex-shrink: 0; }
+        .btn:hover { background: rgba(59, 130, 246, 0.4); border-color: #3b82f6; }
+        .tele-icon { width: 22px; height: 22px; margin-right: 8px; flex-shrink: 0; }
+
+        /* Donate Style */
+        .donate-box { text-align: center; }
+        .qr-container {
+            padding: 3px;
+            background: linear-gradient(45deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+            background-size: 400%;
+            border-radius: 15px;
+            animation: rainbow 5s linear infinite;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        .qr-container img { display: block; border-radius: 12px; width: 150px; height: 150px; }
+        @keyframes rainbow { 0% { background-position: 0 0; } 100% { background-position: 400% 0; } }
+        .bank-info { font-size: 13px; color: #fff; text-align: left; padding-left: 5px; }
+        .bank-row { margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -68,12 +82,12 @@
         <div class="admin-header">
             <div class="user-left">
                 <img src="https://sf-static.upanhlaylink.com/img/image_2026050401952684c70ab915e7eb78b4b2c90902.jpg" class="avatar">
-                <div class="user-details">
+                <div>
                     <div class="name">obi74z</div>
                     <div class="role">ADMIN</div>
                 </div>
             </div>
-            <div class="time-right">11:41<br>5/6/2026</div>
+            <div style="font-size: 11px; text-align: right;">11:41<br>5/6/2026</div>
         </div>
 
         <div class="box">
@@ -83,21 +97,43 @@
         </div>
 
         <div class="box">
-            <div class="section-title">Chọn hệ thống</div>
+            <div class="section-title">CHỌN HỆ THỐNG</div>
             <button class="btn" onclick="window.location.href='https://oibog.github.io/getkey/tipa.html'">TIPA VN MOD</button>
             <button class="btn" onclick="window.location.href='https://oibog.github.io/getkey/proxy.html'">PROXY FF</button>
         </div>
 
         <div class="box">
-            <div class="section-title">Box Telegram</div>
-            <a href="https://t.me/vnmodios" class="btn">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> VN MOD
-            </a>
-            <a href="https://t.me/obicheat" class="btn">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> obi cheat
-            </a>
+            <div class="accordion-header" onclick="toggle(this)">Ủng hộ (Donate) <span>▼</span></div>
+            <div class="content donate-box">
+                <div class="qr-container" style="margin-top: 15px;">
+                    <img src="https://api.vietqr.io/image/970422-0374583885-compact.jpg?accountName=NGO SON LAM" alt="QR">
+                </div>
+                <div class="bank-info">
+                    <div class="bank-row">Ngân hàng: <b>MB BANK</b></div>
+                    <div class="bank-row">Chủ tài khoản: <b>NGO SON LAM</b></div>
+                    <div class="bank-row">Số tài khoản: <b>0374583885</b></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="accordion-header" onclick="toggle(this)">Telegram <span>▼</span></div>
+            <div class="content">
+                <a href="https://t.me/vnmodios" class="btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> VN MOD
+                </a>
+                <a href="https://t.me/obi74z" class="btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> ADMIN
+                </a>
+            </div>
         </div>
     </div>
 
+    <script>
+        function toggle(el) {
+            const content = el.nextElementSibling;
+            content.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
