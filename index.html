@@ -5,135 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VN MOD</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400&display=swap');
 
         body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            margin: 0; font-family: 'Inter', sans-serif; color: white;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 20px;
             background-color: #0f0f12;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
         }
 
-        .container { width: 340px; }
+        .window { 
+            background: rgba(30, 30, 30, 0.7); backdrop-filter: blur(20px);
+            border-radius: 12px; border: 1px solid rgba(255,255,255,0.15);
+            width: 340px; margin-bottom: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        .title-bar { background: rgba(255,255,255,0.05); padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .dot { width: 11px; height: 11px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
 
-        .admin-header, .box { 
-            background: rgba(255, 255, 255, 0.05); 
-            padding: 20px; 
-            border-radius: 20px; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            margin-bottom: 15px; 
-            backdrop-filter: blur(10px);
+        #loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
+            background: #0f0f12; display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        
-        .admin-header { display: flex; align-items: center; justify-content: space-between; padding: 15px; }
-        .user-left { display: flex; align-items: center; gap: 12px; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #3b82f6; }
-        .name { font-weight: 800; font-size: 15px; }
-        .role { color: #ff4d4d; font-size: 11px; font-weight: 700; text-transform: uppercase; }
-        
-        .section-title { color: #f59e0b; font-size: 12px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; }
-        
-        /* Accordion Style */
-        .accordion-header { 
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            color: #f59e0b; font-size: 12px; font-weight: 800; text-transform: uppercase;
-        }
-        .content { display: none; margin-top: 15px; }
-        .content.active { display: block; }
-        
+        .terminal { background: #000; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0f0; width: 300px; height: 150px; border: 1px solid #333; margin-bottom: 15px; overflow: hidden;}
+        .enter-btn { padding: 10px 30px; background: #3b82f6; border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; display: none; }
+
         .btn { 
-            display: flex; align-items: center; justify-content: start; 
-            width: 100%; padding: 14px; margin: 8px 0; background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 12px; 
-            cursor: pointer; font-weight: bold; transition: 0.3s; text-decoration: none; box-sizing: border-box;
+            display: flex; align-items: center; width: 100%; padding: 12px; margin: 8px 0; 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); 
+            color: white; border-radius: 8px; cursor: pointer; text-decoration: none; 
+            font-size: 13px; font-weight: 600; transition: 0.3s; box-sizing: border-box;
         }
-        .btn:hover { background: rgba(59, 130, 246, 0.4); border-color: #3b82f6; }
-        .tele-icon { width: 22px; height: 22px; margin-right: 8px; flex-shrink: 0; }
+        .btn:hover { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; }
+        
+        .section-title { color: #f59e0b; font-size: 11px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; }
+        .accordion-header { cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #f59e0b; font-size: 11px; font-weight: 800; text-transform: uppercase; user-select: none; }
+        .content { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; }
+        
+        /* Fix Telegram Icon */
+        .tele-icon { width: 20px; height: 20px; margin-right: 10px; object-fit: contain; }
+        
+        .highlight { color: #f59e0b; font-weight: bold; }
 
-        /* Donate Style */
-        .donate-box { text-align: center; }
         .qr-container {
-            padding: 3px;
-            background: linear-gradient(45deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
-            background-size: 400%;
-            border-radius: 15px;
-            animation: rainbow 5s linear infinite;
-            display: inline-block;
-            margin-bottom: 15px;
+            position: relative; width: 180px; height: 180px; margin: 15px auto;
+            padding: 4px; border-radius: 12px; overflow: hidden;
         }
-        .qr-container img { display: block; border-radius: 12px; width: 150px; height: 150px; }
-        @keyframes rainbow { 0% { background-position: 0 0; } 100% { background-position: 400% 0; } }
-        .bank-info { font-size: 13px; color: #fff; text-align: left; padding-left: 5px; }
-        .bank-row { margin-bottom: 8px; }
+        .qr-container::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%; background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
+            animation: rotate 3s linear infinite;
+        }
+        .qr-inner { position: absolute; inset: 4px; background: #1e1e1e; border-radius: 8px; overflow: hidden; z-index: 1; }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
+    <audio id="bgMusic" loop><source src="https://files.catbox.moe/ju8193.mp3" type="audio/mpeg"></audio>
+
+    <div id="loader-wrapper">
+        <div class="window" style="width: 320px;">
+            <div class="title-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="terminal" id="terminal"><div>[System] Initializing VN MOD...</div></div>
+        </div>
+        <button class="enter-btn" id="enterBtn" onclick="startExperience()">TRUY CẬP WEB</button>
+    </div>
+
     <div class="container">
-        <div class="admin-header">
-            <div class="user-left">
-                <img src="https://sf-static.upanhlaylink.com/img/image_2026050401952684c70ab915e7eb78b4b2c90902.jpg" class="avatar">
-                <div>
-                    <div class="name">obi74z</div>
-                    <div class="role">ADMIN</div>
-                </div>
+        <div class="window">
+            <div class="title-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div style="padding: 15px;">
+                <div class="section-title">CHỌN MỤC</div>
+                <button class="btn" onclick="window.open('https://oibog.github.io/getkey/tipa.html', '_blank')">TIPA VN MOD</button>
+                <button class="btn" onclick="window.open('https://oibog.github.io/getkey/proxy.html', '_blank')">PROXY FF</button>
             </div>
-            <div style="font-size: 11px; text-align: right;">11:41<br>5/6/2026</div>
         </div>
 
-        <div class="box">
-            <div class="section-title">Thông báo</div>
-            <div style="font-size: 14px; color: #eee; margin: 5px 0;">[+] Proxy: Đã up thêm key 5/6/2026</div>
-            <div style="font-size: 14px; color: #eee; margin: 5px 0;">[+] Tipa: Đã up thêm key 5/6/2026</div>
-        </div>
-
-        <div class="box">
-            <div class="section-title">CHỌN HỆ THỐNG</div>
-            <button class="btn" onclick="window.location.href='https://oibog.github.io/getkey/tipa.html'">TIPA VN MOD</button>
-            <button class="btn" onclick="window.location.href='https://oibog.github.io/getkey/proxy.html'">PROXY FF</button>
-        </div>
-
-        <div class="box">
-            <div class="accordion-header" onclick="toggle(this)">Ủng hộ (Donate) <span>▼</span></div>
-            <div class="content donate-box">
-                <div class="qr-container" style="margin-top: 15px;">
-                    <img src="https://api.vietqr.io/image/970422-0374583885-compact.jpg?accountName=NGO SON LAM" alt="QR">
-                </div>
-                <div class="bank-info">
-                    <div class="bank-row">Ngân hàng: <b>MB BANK</b></div>
-                    <div class="bank-row">Chủ tài khoản: <b>NGO SON LAM</b></div>
-                    <div class="bank-row">Số tài khoản: <b>0374583885</b></div>
+        <div class="window">
+            <div class="title-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div style="padding: 15px;">
+                <div class="accordion-header" onclick="toggleContent(this)">Ủng hộ (Donate) <span>▼</span></div>
+                <div class="content">
+                    <div class="qr-container">
+                        <div class="qr-inner">
+                            <img src="https://api.vietqr.io/image/970422-0374583885-compact.jpg?accountName=NGO SON LAM" style="width:100%; height:100%; object-fit:cover;">
+                        </div>
+                    </div>
+                    <div style="font-size:13px; line-height: 1.8; padding: 0 15px 15px;">
+                        <span class="highlight">[+] Ngân hàng: MB BANK</span><br>
+                        <span class="highlight">[+] STK: 0374583885</span><br>
+                        <span class="highlight">[+] CTK: NGO SON LAM</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="box">
-            <div class="accordion-header" onclick="toggle(this)">Telegram <span>▼</span></div>
-            <div class="content">
-                <a href="https://t.me/vnmodios" class="btn">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> VN MOD
-                </a>
-                <a href="https://t.me/obi74z" class="btn">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> ADMIN
-                </a>
+        <div class="window">
+            <div class="title-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div style="padding: 15px;">
+                <div class="accordion-header" onclick="toggleContent(this)">Telegram <span>▼</span></div>
+                <div class="content" style="padding-top: 10px;">
+                    <a href="https://t.me/vnmodios" target="_blank" class="btn">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> VN MOD
+                    </a>
+                    <a href="https://t.me/obi74z" target="_blank" class="btn">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> ADMIN
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        function toggle(el) {
-            const content = el.nextElementSibling;
-            content.classList.toggle('active');
+        function startExperience() {
+            const audio = document.getElementById('bgMusic');
+            audio.play().catch(() => {});
+            document.getElementById('loader-wrapper').style.display = 'none';
         }
+        function toggleContent(el) {
+            const content = el.nextElementSibling;
+            content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+            content.style.opacity = content.style.maxHeight ? "1" : "0";
+        }
+
+        const term = document.getElementById('terminal');
+        const logs = ["[System] Initializing...", "[Info] Connecting...", "[Success] System operational."];
+        let i = 0;
+        const interval = setInterval(() => { 
+            if(i < logs.length) { term.innerHTML += "<div>"+logs[i]+"</div>"; i++; } 
+            else { clearInterval(interval); document.getElementById('enterBtn').style.display = 'block'; }
+        }, 600);
     </script>
 </body>
 </html>
