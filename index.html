@@ -3,52 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VN MOD - Bảo trì</title>
+    <title>VN MOD</title>
     <style>
-        /* Mặc định ẩn thông báo bảo trì */
-        #maintenance-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f0f12;
-            z-index: 99999;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400&display=swap');
+
+        body {
+            margin: 0; font-family: 'Inter', sans-serif; color: white;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; padding: 20px;
+            background-color: #0f0f12;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        /* Khi body có class maintenance-mode, ẩn nội dung web và hiện thông báo */
-        body.maintenance-mode > *:not(#maintenance-overlay) {
-            display: none !important;
+        .window { 
+            background: rgba(30, 30, 30, 0.7); backdrop-filter: blur(20px);
+            border-radius: 12px; border: 1px solid rgba(255,255,255,0.15);
+            width: 340px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden; flex-shrink: 0;
         }
-        body.maintenance-mode #maintenance-overlay {
-            display: flex !important;
-        }
+        .window-content { padding: 15px; text-align: left; }
+        .title-bar { background: rgba(255,255,255,0.05); padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .dot { width: 11px; height: 11px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
 
-        .maint-box { border: 1px solid #333; padding: 40px; border-radius: 15px; background: rgba(30,30,30,0.5); }
+        #loader-wrapper { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; 
+            background: #0f0f12; display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .loader-grid { 
+            position: absolute; inset: 0; 
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 1; pointer-events: none;
+        }
+        
+        .terminal { background: #000; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0f0; width: 300px; height: 150px; border: 1px solid #333; margin-bottom: 15px; overflow: hidden; }
+        .enter-btn {
+            padding: 12px 40px; background: transparent; border: 2px solid #3b82f6;
+            color: #3b82f6; border-radius: 8px; cursor: pointer; font-weight: 800;
+            font-size: 14px; text-transform: uppercase; transition: 0.4s;
+            letter-spacing: 1px; display: none; margin-top: 20px; z-index: 10;
+        }
+        .enter-btn:hover { background: #3b82f6; color: white; box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+        .fade-out { opacity: 0; transition: opacity 0.8s ease; pointer-events: none; }
+
+        .warning-container { position: relative; border: 3px solid #ff0000; border-radius: 8px; margin-bottom: 15px; overflow: hidden; line-height: 0; }
+        .warning-container img { width: 100%; display: block; }
+        .warning-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ff0000; font-weight: 900; font-size: 24px; text-shadow: 2px 2px 4px #000; border: 2px solid #ff0000; padding: 5px 15px; background: rgba(0, 0, 0, 0.5); pointer-events: none; letter-spacing: 2px; z-index: 1; }
+
+        .btn { display: flex; align-items: center; justify-content: flex-start; width: 100%; padding: 12px; margin: 8px 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s; box-sizing: border-box;}
+        .btn:hover { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; }
+        
+        .section-title { color: #f59e0b; font-size: 11px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; text-align: left; }
+        .accordion-header { cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); color: #f59e0b; font-size: 13px; font-weight: 800; text-transform: uppercase; user-select: none; margin: 8px 0; }
+        .content { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; }
+        
+        /* TIPA MOD Styles */
+        .tipa-container { border: 1px solid rgba(59, 130, 246, 0.4); border-radius: 12px; padding: 10px; background: rgba(0, 0, 0, 0.2); margin-top: 5px; }
+        .price-list { font-size: 13px; line-height: 1.8; color: #fff; padding: 10px 0; }
+        .buy-btn { display: block; width: 100%; padding: 12px; background: #3b82f6; color: white; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 800; font-size: 13px; transition: 0.3s; box-sizing: border-box; }
+        .buy-btn:hover { background: #2563eb; transform: translateY(-2px); }
+
+        .tele-icon { width: 20px; height: 20px; margin-right: 10px; object-fit: contain; }
+        .highlight { color: #f59e0b; font-weight: bold; }
+        .qr-container { position: relative; width: 180px; height: 180px; margin: 15px auto; padding: 4px; border-radius: 12px; overflow: hidden; }
+        .qr-container::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red); animation: rotate 3s linear infinite; }
+        .qr-inner { position: absolute; inset: 4px; background: #1e1e1e; border-radius: 8px; overflow: hidden; z-index: 1; }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        .vibrate { animation: gentle-vibrate 0.3s infinite ease-in-out; }
+        @keyframes gentle-vibrate { 0% { transform: translate(1px, 1px) rotate(0deg); } 50% { transform: translate(-1px, 0px) rotate(-0.5deg); } 100% { transform: translate(1px, 0px) rotate(0.5deg); } }
     </style>
-    </head>
+</head>
 <body>
 
-    <div id="maintenance-overlay">
-        <div class="maint-box">
-            <h1 style="color: #ff5f56; font-size: 2rem;">HỆ THỐNG ĐANG BẢO TRÌ</h1>
-            <p style="color: #ccc; margin: 15px 0;">Trang web hiện đang tạm thời đóng.</p>
-            <a href="https://t.me/obi74z" style="color: #3b82f6; text-decoration: none; font-weight: bold;">[+] Liên hệ hỗ trợ qua Telegram</a>
+    <div id="loader-wrapper">
+        <div class="loader-grid"></div>
+        <div class="window" style="width: 320px; z-index: 10;">
+            <div class="title-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <img src="https://sf-static.upanhlaylink.com/img/image_20260605bfbfac774d19015e4c0e8f62da2ca3df.jpg" style="width: 100%; height: 120px; object-fit: cover;">
+            <div class="terminal" id="terminal"><div>[System] Initializing VN MOD...</div></div>
+        </div>
+        <button class="enter-btn" id="enterBtn" onclick="enterSite()">TRUY CẬP TRANG CHỦ</button>
+    </div>
+
+    <div class="window">
+        <div class="title-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+        <div class="window-content">
+            <div class="section-title">CHỌN MỤC</div>
+            <div class="warning-container vibrate">
+                <div class="warning-overlay">WARNING</div>
+                <img src="https://sf-static.upanhlaylink.com/img/image_20260605bfbfac774d19015e4c0e8f62da2ca3df.jpg" alt="Warning">
+            </div>
+
+            <!-- TIPA VN MOD -->
+            <div class="accordion-header" onclick="toggleContent(this)">[+] MUA TIPA VN MOD <span>▼</span></div>
+            <div class="content">
+                <div class="tipa-container">
+                    <img src="https://sf-static.upanhlaylink.com/img/image_2026060628342af178eef2c01952bb4c2bf11ebc.jpg" style="width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div class="price-list">
+                        [+] 20K / 1 Ngày<br>
+                        [+] 70K / 1 Tuần<br>
+                        [+] 120K / 1 Tháng
+                    </div>
+                    <a href="https://t.me/obi74z" target="_blank" class="buy-btn">LIÊN HỆ MUA KEY</a>
+                </div>
+            </div>
+
+            <button class="btn" onclick="window.open('https://oibog.github.io/getkey/proxy.html', '_blank')">[+] GET KEY PROXY FF</button>
         </div>
     </div>
 
-    <div id="loader-wrapper">
+    <div class="window">
+        <div class="title-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+        <div class="window-content">
+            <div class="accordion-header" onclick="toggleContent(this)">Ủng hộ (Donate) <span>▼</span></div>
+            <div class="content">
+                <div class="qr-container"><div class="qr-inner"><img src="https://api.vietqr.io/image/970422-0374583885-compact.jpg?accountName=NGO SON LAM" style="width:100%; height:100%; object-fit:cover;"></div></div>
+                <div style="font-size:13px; line-height: 1.8;">
+                    <span class="highlight">[+] Ngân hàng: MB BANK</span><br>
+                    <span class="highlight">[+] STK: 0374583885</span><br>
+                    <span class="highlight">[+] CTK: NGO SON LAM</span>
+                </div>
+            </div>
         </div>
-    
+    </div>
+
+    <div class="window">
+        <div class="title-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+        <div class="window-content">
+            <div class="accordion-header" onclick="toggleContent(this)">Telegram <span>▼</span></div>
+            <div class="content" style="padding-top: 10px;">
+                <a href="https://t.me/vnmodios" target="_blank" class="btn"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> VN MOD</a>
+                <a href="https://t.me/obi74z" target="_blank" class="btn"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tele-icon"> ADMIN</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="music-controls" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: none;">
+        <button id="musicBtn" class="btn" onclick="toggleMusic()" style="width: auto; padding: 10px 15px; background: rgba(0,0,0,0.5);">||</button>
+    </div>
+
+    <audio id="musicPlayer" loop><source src="https://files.catbox.moe/ju8193.mp3" type="audio/mpeg"></audio>
+
     <script>
-        // Để đóng web nhanh bằng console:
-        // document.body.classList.add('maintenance-mode');
-        
-        // Để mở lại:
-        // document.body.classList.remove('maintenance-mode');
+        const audio = document.getElementById("musicPlayer");
+        function enterSite() {
+            const loader = document.getElementById('loader-wrapper');
+            loader.classList.add('fade-out');
+            setTimeout(() => {
+                loader.style.display = 'none';
+                document.getElementById('music-controls').style.display = 'block';
+                audio.play();
+            }, 800);
+        }
+        function toggleMusic() {
+            const btn = document.getElementById("musicBtn");
+            if (audio.paused) { audio.play(); btn.innerHTML = "||"; } 
+            else { audio.pause(); btn.innerHTML = "|>"; }
+        }
+        function toggleContent(el) {
+            const content = el.nextElementSibling;
+            content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+            content.style.opacity = content.style.maxHeight ? "1" : "0";
+        }
+        const term = document.getElementById('terminal');
+        const logs = ["[System] Initializing...", "[Info] Connecting...", "[Success] System operational."];
+        let i = 0;
+        const interval = setInterval(() => { 
+            if(i < logs.length) { term.innerHTML += "<div>"+logs[i]+"</div>"; i++; } 
+            else { clearInterval(interval); document.getElementById('enterBtn').style.display = 'block'; }
+        }, 600);
     </script>
 </body>
 </html>
